@@ -1,0 +1,27 @@
+{
+  "my": {
+    "code": "my",
+    "currency": "MYR",
+    "tld": "com.my",
+    "shipping_channels": [
+      "Standard Doorstep Delivery (International)",
+      "Doorstep Delivery (Overseas)",
+      "Doorstep Delivery (Sea Shipping)",
+      "SPX Express Lockers (Overseas)",
+      "Pick Lockers (Overseas)",
+      "Collection Points (Overseas)"
+    ]
+  },
+  "sg": {
+    "code": "sg",
+    "currency": "SGD",
+    "tld": "sg",
+    "shipping_channels": [
+      "Doorstep Delivery",
+      "Bulky Delivery",
+      "Economy Delivery (Mail Drop)",
+      "2-Day Delivery",
+      "Self Collection Point (SPX Express)"
+    ]
+  }
+}

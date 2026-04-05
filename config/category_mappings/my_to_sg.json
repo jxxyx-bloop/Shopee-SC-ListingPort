@@ -1,0 +1,9 @@
+{
+  "_comment": "MY category ID -> SG category ID mapping. Add entries as needed.",
+  "_example": "\"100226\": \"100226\"  means MY cat 100226 maps to SG cat 100226 (same ID)",
+  "101379": "",
+  "100226": "",
+  "100024": "",
+  "101237": "",
+  "100352": ""
+}
