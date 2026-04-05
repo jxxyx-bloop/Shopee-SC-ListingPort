@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shopee-transfer"
+version = "0.1.0"
+description = "Cross-market listing transfer tool for Shopee sellers"
+requires-python = ">=3.10"
+dependencies = [
+    "pandas>=2.0",
+    "openpyxl>=3.1",
+    "python-calamine>=0.6",
+    "pydantic>=2.0",
+    "click>=8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+]
+
+[project.scripts]
+shopee-transfer = "shopee_transfer.cli:cli"
+
+[tool.setuptools.packages.find]
+where = ["src"]

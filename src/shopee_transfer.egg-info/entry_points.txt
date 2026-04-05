@@ -1,0 +1,2 @@
+[console_scripts]
+shopee-transfer = shopee_transfer.cli:cli
