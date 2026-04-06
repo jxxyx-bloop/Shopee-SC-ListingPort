@@ -19,6 +19,9 @@ dependencies = [
 dev = [
     "pytest>=7.0",
 ]
+web = [
+    "streamlit>=1.30",
+]
 
 [project.scripts]
 shopee-transfer = "shopee_transfer.cli:cli"
