@@ -93,8 +93,22 @@ class TestTransformProducts:
         assert len(with_integration) > 0
 
     def test_direct_listing_price(self, products, config):
-        """Direct Listing Price:SG should equal Price."""
+        """Direct Listing Price:SG should equal Price for SG target."""
         rows = transform_products(products, config, config_dir=CONFIG_DIR)
         for row in rows:
             if row.get("Price") is not None:
                 assert row.get("Direct Listing Price:SG") == row["Price"]
+
+    def test_category_overrides(self, products, config):
+        """Category overrides should take precedence over mapping file."""
+        overrides = {"101379": "999999"}
+        rows = transform_products(
+            products, config, config_dir=CONFIG_DIR, category_overrides=overrides
+        )
+        # Find CUTE SHIBA STICKER (category 101379) and verify override applied
+        for row in rows:
+            if row.get("Product Name") == "CUTE SHIBA STICKER":
+                assert row["Category"] == "999999"
+                break
+        else:
+            pytest.fail("CUTE SHIBA STICKER not found in output")

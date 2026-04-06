@@ -78,6 +78,7 @@ class MarketConfig(BaseModel):
     currency: str  # e.g. "MYR", "SGD"
     tld: str  # e.g. "com.my", "sg"
     shipping_channels: list[str] = Field(default_factory=list)
+    direct_listing_price_column: str | None = None  # e.g. "Direct Listing Price:SG"
 
 
 class TransformConfig(BaseModel):
