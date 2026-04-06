@@ -33,12 +33,34 @@ def _get_default_rate(source_currency: str, target_currency: str) -> float:
     return STATIC_RATES.get((source_currency, target_currency), 1.0)
 
 
-def _save_uploaded_file(uploaded_file) -> Path:
-    """Save a Streamlit UploadedFile to a temp file and return its path."""
+def _save_uploaded_file(uploaded_file, cache_key: str) -> Path:
+    """Save a Streamlit UploadedFile to a temp file and return its path.
+
+    Uses session_state to cache the path so we don't create a new temp file
+    on every Streamlit rerun. Old temp files are cleaned up when replaced.
+    """
+    state_key = f"_tmp_path_{cache_key}"
+
+    # Check if we already saved this exact file (same name + size)
+    file_id = f"{uploaded_file.name}_{uploaded_file.size}"
+    id_key = f"_tmp_id_{cache_key}"
+    if state_key in st.session_state and id_key in st.session_state:
+        if st.session_state[id_key] == file_id:
+            existing = Path(st.session_state[state_key])
+            if existing.exists():
+                return existing
+
+    # Clean up old temp file if it exists
+    if state_key in st.session_state:
+        old_path = Path(st.session_state[state_key])
+        old_path.unlink(missing_ok=True)
+
     suffix = Path(uploaded_file.name).suffix
     tmp = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)
     tmp.write(uploaded_file.getvalue())
     tmp.close()
+    st.session_state[state_key] = tmp.name
+    st.session_state[id_key] = file_id
     return Path(tmp.name)
 
 
@@ -46,7 +68,7 @@ def _detect_type_safe(path: Path) -> str | None:
     """Detect export type, returning None on failure."""
     try:
         return detect_export_type(path)
-    except (ValueError, Exception):
+    except Exception:
         return None
 
 
@@ -147,7 +169,7 @@ for i, (expected_type, (label, hint)) in enumerate(EXPORT_LABELS.items()):
             help=f"Expected file: {hint}",
         )
         if uploaded:
-            tmp_path = _save_uploaded_file(uploaded)
+            tmp_path = _save_uploaded_file(uploaded, f"export_{expected_type}")
             detected = _detect_type_safe(tmp_path)
             if detected == expected_type:
                 st.success(f"{detected}", icon="✅")
@@ -172,7 +194,7 @@ template_file = st.file_uploader(
 
 template_path: Path | None = None
 if template_file:
-    template_path = _save_uploaded_file(template_file)
+    template_path = _save_uploaded_file(template_file, "upload_template")
     st.success("Template uploaded", icon="✅")
 
 # Check readiness
@@ -197,10 +219,14 @@ st.divider()
 
 st.header("Step 3: Review & Map Categories")
 
-# Parse all exports
+# Parse all exports (cached to avoid re-parsing on every widget interaction)
+@st.cache_data
+def _parse_exports(paths: tuple[str, ...]) -> list:
+    return read_and_merge_exports([Path(p) for p in paths])
+
 with st.spinner("Parsing export files..."):
-    export_paths = [uploaded_exports[t] for t in EXPORT_LABELS.keys()]
-    products = read_and_merge_exports(export_paths)
+    export_paths = tuple(str(uploaded_exports[t]) for t in EXPORT_LABELS.keys())
+    products = _parse_exports(export_paths)
 
 # Summary metrics
 col_m1, col_m2, col_m3, col_m4 = st.columns(4)

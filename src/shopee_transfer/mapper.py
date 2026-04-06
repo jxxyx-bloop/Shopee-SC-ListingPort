@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from .config import load_category_mapping, load_market_config
 from .currency import convert_price
-from .models import MarketConfig, Product, TransformConfig
+from .models import MarketConfig, Product, TransformConfig, Variation
 
 
 def _map_category(
@@ -96,7 +96,7 @@ def _convert(
 
 def _build_product_row(
     product: Product,
-    variation: "from .models import Variation | None",
+    variation: Variation | None,
     mapped_category: str | None,
     source_config: MarketConfig,
     target_config: MarketConfig,
@@ -148,16 +148,16 @@ def _build_product_row(
     for channel in target_config.shipping_channels:
         row[channel] = config.default_shipping
 
-    # Handle Direct Listing Price (SG-specific)
-    # Look for any column starting with "Direct Listing Price"
-    row["Direct Listing Price:SG"] = converted_price
+    # Handle Direct Listing Price (market-specific, e.g. SG has "Direct Listing Price:SG")
+    if target_config.direct_listing_price_column:
+        row[target_config.direct_listing_price_column] = converted_price
 
     return row
 
 
 def _build_variation_row(
     product: Product,
-    variation,
+    variation: Variation,
     mapped_category: str | None,
     source_config: MarketConfig,
     target_config: MarketConfig,
@@ -179,13 +179,8 @@ def _build_variation_row(
             source_config, target_config, config,
             integration_no,
         )
-        row["Variation Integration No."] = integration_no
-        row["Variation Name1"] = product.variation_name1
-        row["Option for Variation 1"] = variation.name
-
         # Map variation image from media_info option images
-        var_img = _find_variation_image(product, variation)
-        row["Image per Variation"] = var_img
+        row["Image per Variation"] = _find_variation_image(product, variation)
 
         return row
     else:
@@ -208,7 +203,6 @@ def _build_variation_row(
             "Variation Name2": None,
             "Option for Variation 2": None,
             "Price": converted_price,
-            "Direct Listing Price:SG": converted_price,
             "Stock": variation.stock,
             "SKU": variation.sku,
             "Size Chart Template": None,
@@ -222,6 +216,9 @@ def _build_variation_row(
             "Pre-order DTS": None,
         }
 
+        if target_config.direct_listing_price_column:
+            row[target_config.direct_listing_price_column] = converted_price
+
         for i in range(8):
             row[f"Item Image {i + 1}"] = None
 
@@ -231,7 +228,7 @@ def _build_variation_row(
         return row
 
 
-def _find_variation_image(product: Product, variation) -> str | None:
+def _find_variation_image(product: Product, variation: Variation) -> str | None:
     """Find the image for a specific variation option from media_info data."""
     if not variation.name or not product.variation_options_images:
         return None

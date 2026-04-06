@@ -10,7 +10,8 @@
       "SPX Express Lockers (Overseas)",
       "Pick Lockers (Overseas)",
       "Collection Points (Overseas)"
-    ]
+    ],
+    "direct_listing_price_column": null
   },
   "sg": {
     "code": "sg",
@@ -22,6 +23,7 @@
       "Economy Delivery (Mail Drop)",
       "2-Day Delivery",
       "Self Collection Point (SPX Express)"
-    ]
+    ],
+    "direct_listing_price_column": "Direct Listing Price:SG"
   }
 }

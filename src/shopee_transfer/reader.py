@@ -19,11 +19,8 @@ EXPORT_TYPES = {
 
 
 def detect_export_type(path: str | Path) -> str:
-    """Detect the export type from the metadata row (row 0, col 0)."""
-    df_meta = pd.read_excel(path, engine="calamine", header=None, nrows=1)
-    type_id = str(df_meta.iloc[0, 0])
-    # Row 0 col 0 contains the internal field prefix, e.g. "et_title_product_id"
-    # But row 1 col 0 contains the actual type: "basic_info", "sales_info", etc.
+    """Detect the export type from the metadata row (row 1, col 0)."""
+    # Row 1 col 0 contains the type identifier: "basic_info", "sales_info", etc.
     df_row1 = pd.read_excel(path, engine="calamine", header=None, skiprows=1, nrows=1)
     export_type = str(df_row1.iloc[0, 0])
     if export_type in EXPORT_TYPES:
@@ -160,8 +157,9 @@ def _parse_shipping_info(products: dict[float, Product], df: pd.DataFrame) -> No
         # Update matching variation's weight if per-variation
         vid = row.get("Variation ID")
         if pd.notna(vid):
+            vid_int = int(vid)
             for var in p.variations:
-                if var.variation_id is not None and float(var.variation_id) == float(vid):
+                if var.variation_id is not None and int(var.variation_id) == vid_int:
                     var.weight_kg = _safe_str(row.get("Product Weight/kg"))
                     var.length = _safe_str(row.get("Length"))
                     var.width = _safe_str(row.get("Width"))
@@ -192,8 +190,9 @@ def _parse_dts_info(products: dict[float, Product], df: pd.DataFrame) -> None:
         # Per-variation DTS
         vid = row.get("Variation ID")
         if pd.notna(vid):
+            vid_int = int(vid)
             for var in p.variations:
-                if var.variation_id is not None and float(var.variation_id) == float(vid):
+                if var.variation_id is not None and int(var.variation_id) == vid_int:
                     var.days_to_ship = _safe_str(row.get("Days to ship"))
                     break
 
