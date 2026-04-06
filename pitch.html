@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cross-Market Listing Transfer Tool — Pitch</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#222;line-height:1.6;background:#fff}
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.97);border-bottom:1px solid #e0e0e0;padding:12px 40px;display:flex;gap:24px;align-items:center;font-size:14px}
+nav a{color:#555;text-decoration:none;font-weight:500;transition:color .2s}
+nav a:hover{color:#EE4D2D}
+nav .logo{font-weight:700;color:#EE4D2D;font-size:16px;margin-right:auto}
+section{padding:80px 40px;max-width:1100px;margin:0 auto}
+.band-grey{background:#F8F8F8}
+.band-white{background:#fff}
+.band-dark{background:#1a1a2e;color:#fff}
+.band-orange{background:linear-gradient(135deg,#EE4D2D 0%,#d4411f 100%);color:#fff}
+.full-width{max-width:100%;padding-left:0;padding-right:0}
+.inner{max-width:1100px;margin:0 auto;padding:0 40px}
+h1{font-size:48px;font-weight:800;line-height:1.1;margin-bottom:16px}
+h2{font-size:32px;font-weight:700;margin-bottom:32px;color:#222}
+h3{font-size:20px;font-weight:700;margin-bottom:12px}
+.subtitle{font-size:20px;color:rgba(255,255,255,.85);margin-bottom:24px;max-width:700px}
+.tag{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 16px;font-size:13px;margin-bottom:24px}
+.hero-summary{font-size:17px;color:rgba(255,255,255,.9);max-width:750px;line-height:1.7;border-left:3px solid rgba(255,255,255,.4);padding-left:20px;margin-top:16px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px}
+.four-col{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.stat-box{background:#fff;border-radius:12px;padding:28px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid #eee}
+.stat-box .num{font-size:32px;font-weight:800;color:#EE4D2D;display:block;margin-bottom:4px}
+.stat-box .label{font-size:14px;color:#666}
+.card{background:#fff;border-radius:12px;padding:28px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid #eee}
+.card h3{margin-bottom:8px}
+.card ul{padding-left:18px;font-size:15px;color:#444}
+.card ul li{margin-bottom:6px}
+.verdict{display:inline-block;padding:4px 14px;border-radius:16px;font-size:13px;font-weight:600;margin-top:12px}
+.verdict-no{background:#fef2f2;color:#dc2626;border:1px solid #fecaca}
+.verdict-yes{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0}
+.verdict-future{background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe}
+.pros{color:#16a34a;font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 4px}
+.cons{color:#dc2626;font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 4px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+table th{text-align:left;padding:12px 16px;background:#f8f8f8;border-bottom:2px solid #e0e0e0;font-weight:600;color:#444}
+table td{padding:12px 16px;border-bottom:1px solid #eee}
+table tr:hover td{background:#fafafa}
+.section-label{font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:#EE4D2D;font-weight:700;margin-bottom:8px}
+.phase-card{border-left:4px solid #EE4D2D;padding-left:24px}
+.phase-card.alt{border-left-color:#2563eb}
+.phase-badge{display:inline-block;background:#EE4D2D;color:#fff;font-size:12px;font-weight:700;padding:2px 10px;border-radius:10px;margin-bottom:8px}
+.phase-badge.alt{background:#2563eb}
+.check{color:#16a34a;font-weight:700}
+.pillar{text-align:center;padding:32px 24px}
+.pillar .icon{font-size:36px;margin-bottom:12px}
+.pillar h3{margin-bottom:8px}
+.pillar p{font-size:15px;color:#555;line-height:1.6}
+.pillar .before-after{text-align:left;margin-top:16px;font-size:14px;background:#f8f8f8;border-radius:8px;padding:16px}
+.pillar .before-after strong{display:block;margin-bottom:4px}
+.timeline{display:flex;justify-content:space-between;position:relative;padding:40px 0 20px;margin-top:20px}
+.timeline::before{content:'';position:absolute;top:52px;left:5%;right:5%;height:3px;background:#e0e0e0}
+.tl-item{text-align:center;position:relative;flex:1}
+.tl-dot{width:20px;height:20px;border-radius:50%;background:#EE4D2D;margin:0 auto 12px;position:relative;z-index:1;border:3px solid #fff;box-shadow:0 0 0 2px #EE4D2D}
+.tl-dot.future{background:#fff;border:3px solid #fff;box-shadow:0 0 0 2px #ccc}
+.tl-dot.done{background:#16a34a;box-shadow:0 0 0 2px #16a34a}
+.tl-label{font-size:13px;font-weight:700;color:#EE4D2D;margin-bottom:4px}
+.tl-label.future{color:#888}
+.tl-label.done{color:#16a34a}
+.tl-desc{font-size:13px;color:#555;max-width:160px;margin:0 auto}
+.comparison{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.comp-col{padding:36px}
+.comp-col h3{margin-bottom:16px}
+.comp-col ul{padding-left:18px}
+.comp-col ul li{margin-bottom:10px;font-size:15px}
+.comp-now{background:#f8f8f8;border-radius:12px 0 0 12px}
+.comp-future{background:#1a1a2e;color:#fff;border-radius:0 12px 12px 0}
+.comp-future h3{color:#EE4D2D}
+.comp-future ul li{color:rgba(255,255,255,.85)}
+.ask-box{background:#fff;border-radius:12px;padding:32px;border:2px solid #EE4D2D;margin-top:32px;font-size:16px}
+.ask-box h3{color:#EE4D2D;margin-bottom:8px}
+.footer-note{text-align:center;padding:40px;font-size:13px;color:#999;border-top:1px solid #eee}
+@media(max-width:768px){.two-col,.three-col,.four-col,.comparison{grid-template-columns:1fr}.timeline{flex-direction:column;gap:24px}.timeline::before{display:none}h1{font-size:32px}section{padding:48px 20px}.inner{padding:0 20px}}
+</style>
+</head>
+<body>
+
+<nav>
+<span class="logo">Shopee</span>
+<a href="#problem">Problem</a>
+<a href="#approaches">Approaches</a>
+<a href="#solution">Solution</a>
+<a href="#value">Value</a>
+<a href="#future">Future</a>
+<a href="#roadmap">Roadmap</a>
+</nav>
+
+<!-- HERO -->
+<div class="band-orange full-width" style="padding:100px 0 80px">
+<div class="inner">
+<span class="tag">Internal Operations Tool &middot; Q2 2026</span>
+<h1>Cross-Market Listing<br>Transfer Tool</h1>
+<p class="subtitle">Enabling Japanese CB Sellers to Scale Across Shopee Markets &mdash; Without Waiting for a Global Seller Center</p>
+<p class="hero-summary">A practical, low-risk bridge solution that reduces listing duplication effort from hours to minutes &mdash; built and deployed in days, not quarters. Designed by product, ready for engineering to evolve.</p>
+</div>
+</div>
+
+<!-- PROBLEM -->
+<div class="band-white full-width" id="problem" style="padding:80px 0">
+<div class="inner">
+<p class="section-label">The Challenge</p>
+<h2>A Strategic Seller Segment, Blocked by Operational Friction</h2>
+<div class="two-col">
+<div>
+<p style="font-size:16px;color:#444;margin-bottom:16px">Japanese Cross-Border merchants create accounts in <strong>each market's local Seller Center</strong> (MY, SG, TH, PH) &mdash; no dedicated JP Seller Center exists today.</p>
+<p style="font-size:16px;color:#444;margin-bottom:16px">Their product listings are already in English and ready to cross-post. But today, sellers <strong>manually re-enter every product field</strong> into each target market &mdash; names, descriptions, prices, images, variations, shipping info.</p>
+<p style="font-size:16px;color:#444;margin-bottom:16px">This is <strong>error-prone, slow</strong> (hours per batch), and creates a scaling bottleneck for a high-value, growth-minded seller segment.</p>
+<p style="font-size:16px;color:#444;margin-bottom:0">The ideal fix &mdash; a Global Seller Center &mdash; has <strong>low ROI for this niche pool</strong>. We need a practical bridge that works today.</p>
+</div>
+<div>
+<div class="three-col" style="grid-template-columns:1fr">
+<div class="stat-box">
+<span class="num">Hours &rarr; Minutes</span>
+<span class="label">Time to duplicate a product batch across markets</span>
+</div>
+<div class="stat-box">
+<span class="num">~500 listings</span>
+<span class="label">Processed per single transfer session</span>
+</div>
+<div class="stat-box">
+<span class="num">5 files &rarr; 1 file</span>
+<span class="label">Complexity absorbed entirely by the tool</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- APPROACHES -->
+<div class="band-grey full-width" id="approaches" style="padding:80px 0">
+<div class="inner">
+<p class="section-label">Decision Framework</p>
+<h2>Why This Approach, Not the Others</h2>
+<p style="font-size:16px;color:#555;margin-bottom:36px;max-width:700px">We evaluated four approaches across feasibility, maintenance cost, time-to-deploy, and evolutionary potential. Here is why we chose what we chose.</p>
+<div class="four-col">
+
+<div class="card">
+<h3>Option A: Status Quo</h3>
+<p style="font-size:14px;color:#888;margin-bottom:8px">Manual copy-paste, field by field</p>
+<p class="pros">Pros</p>
+<ul><li>No development effort</li><li>No technical risk</li></ul>
+<p class="cons">Cons</p>
+<ul><li>Hours per batch, high error rate</li><li>Scales with headcount, not technology</li><li>Seller frustration and churn risk</li></ul>
+<span class="verdict verdict-no">Not scalable &mdash; this is the problem</span>
+</div>
+
+<div class="card">
+<h3>Option B: Browser Automation / RPA</h3>
+<p style="font-size:14px;color:#888;margin-bottom:8px">Selenium, UiPath &mdash; automate SC clicks</p>
+<p class="pros">Pros</p>
+<ul><li>No API dependency</li><li>Could automate end-to-end in theory</li></ul>
+<p class="cons">Cons</p>
+<ul><li>Any Seller Center UI change breaks it</li><li>Login/session handling is fragile</li><li>Constant maintenance burden</li><li>Not audit-friendly, ToS risk</li></ul>
+<span class="verdict verdict-no">High cost, fragile, risky</span>
+</div>
+
+<div class="card">
+<h3>Option C: Shopee Open API</h3>
+<p style="font-size:14px;color:#888;margin-bottom:8px">Pull listings via API, push to target market</p>
+<p class="pros">Pros</p>
+<ul><li>Most elegant, fully automated</li><li>Real-time, no manual file handling</li><li>Production-grade at scale</li></ul>
+<p class="cons">Cons</p>
+<ul><li>Internal API access not available to our team today</li><li>Requires OAuth per seller, more infrastructure</li><li>Significantly longer time to deploy</li></ul>
+<span class="verdict verdict-future">Ideal long-term &mdash; blocked today</span>
+</div>
+
+<div class="card" style="border:2px solid #EE4D2D">
+<h3 style="color:#EE4D2D">Option D: File-Based Transformation</h3>
+<p style="font-size:14px;color:#888;margin-bottom:8px">Leverage existing Mass Upload/Download workflow</p>
+<p class="pros">Pros</p>
+<ul><li>Works within existing SC capabilities</li><li>Zero new infrastructure or permissions</li><li>Fast to deploy (days, not quarters)</li><li>Seller-familiar workflow</li><li>Extensible to new markets via config</li></ul>
+<p class="cons">Cons</p>
+<ul><li>Manual trigger per batch (not real-time)</li><li>Category IDs mapped manually per market pair</li></ul>
+<span class="verdict verdict-yes">Right tool for right now &mdash; chosen</span>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- WHAT WE BUILT -->
+<div class="band-white full-width" id="solution" style="padding:80px 0">
+<div class="inner">
+<p class="section-label">Delivered Solution</p>
+<h2>What We Built</h2>
+<div class="two-col" style="gap:40px">
+
+<div class="phase-card">
+<span class="phase-badge">Phase 1 &mdash; CLI Tool</span>
+<h3>Python Command-Line Engine</h3>
+<p style="font-size:14px;color:#888;margin-bottom:12px">Audience: Technical ops staff, power users</p>
+<ul style="padding-left:18px;font-size:15px;color:#444">
+<li>Reads 5 Mass Update export files from source market</li>
+<li>Merges product data by Product ID (handles multi-variation products)</li>
+<li>Converts prices via configurable exchange rates</li>
+<li>Maps category IDs via JSON configuration</li>
+<li>Outputs a valid, upload-ready xlsx for the target market</li>
+<li>Handles Shopee's non-standard Excel format (a known compatibility issue solved at the engine level)</li>
+</ul>
+<p style="margin-top:16px"><span class="check">&#10003;</span> Production-ready &middot; 60+ automated tests</p>
+</div>
+
+<div class="phase-card alt">
+<span class="phase-badge alt">Phase 2 &mdash; Web App</span>
+<h3>Streamlit Visual Interface</h3>
+<p style="font-size:14px;color:#888;margin-bottom:12px">Audience: Non-technical ops staff, seller managers</p>
+<ul style="padding-left:18px;font-size:15px;color:#444">
+<li>Drag-and-drop file upload with auto-detection of export type</li>
+<li>Visual product preview table before transformation</li>
+<li>Interactive category mapping UI (no JSON editing needed)</li>
+<li>Exchange rate override field</li>
+<li>One-click transform and instant file download</li>
+</ul>
+<p style="margin-top:16px"><span class="check">&#10003;</span> Production-ready &middot; Deployable on any laptop or internal server</p>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- VALUE ADD -->
+<div class="band-grey full-width" id="value" style="padding:80px 0">
+<div class="inner">
+<p class="section-label">Impact</p>
+<h2>Value of the Initial Deliverables</h2>
+<div class="four-col" style="grid-template-columns:1fr 1fr;gap:24px;margin-bottom:36px">
+
+<div class="card pillar">
+<div class="icon">&#9889;</div>
+<h3>Speed</h3>
+<p>Transform a full product batch in under 60 seconds. What used to take 2&ndash;4 hours of manual data entry is now a 15-minute review-and-upload workflow.</p>
+<div class="before-after">
+<strong style="color:#dc2626">Before:</strong> 2&ndash;4 hours per batch, per market
+<br><strong style="color:#16a34a">After:</strong> File generated in &lt;60s. Upload in 15 min.
+</div>
+</div>
+
+<div class="card pillar">
+<div class="icon">&#10004;</div>
+<h3>Accuracy</h3>
+<p>Eliminates manual re-entry errors. The transformation is deterministic and tested &mdash; same inputs produce the same correct outputs, every time.</p>
+<div class="before-after">
+<strong style="color:#dc2626">Before:</strong> Typos, wrong prices, missing fields
+<br><strong style="color:#16a34a">After:</strong> Tested, repeatable, zero manual errors
+</div>
+</div>
+
+<div class="card pillar">
+<div class="icon">&#127759;</div>
+<h3>Market Scalability</h3>
+<p>Adding a new market pair (e.g., MY &rarr; TH) requires only a new config entry. No code changes, no new development cycle.</p>
+<div class="before-after">
+<strong style="color:#dc2626">Before:</strong> Each new market = same manual effort &times; N
+<br><strong style="color:#16a34a">After:</strong> New market = 1 config file, 0 code changes
+</div>
+</div>
+
+<div class="card pillar">
+<div class="icon">&#128736;</div>
+<h3>PM-Led Delivery &rarr; Dev-Ready Evolution</h3>
+<p>A product manager turned an operational gap into a functioning, tested tool &mdash; <strong>idea to production-grade product, independently</strong>, without consuming developer resources.</p>
+<div class="before-after">
+<strong>And critically:</strong> This is not a throwaway prototype. The codebase is modular, tested (60+ tests), and designed with clean separation of concerns. A developer can pick this up and evolve it into a full API-integrated solution &mdash; the architecture already maps to that future.
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- DATA TABLE -->
+<div class="band-white full-width" style="padding:80px 0">
+<div class="inner">
+<p class="section-label">Data Coverage</p>
+<h2>What Gets Transferred</h2>
+<table>
+<thead>
+<tr><th>Data</th><th>How It's Handled</th></tr>
+</thead>
+<tbody>
+<tr><td>Product Name &amp; Description</td><td>Copied directly</td></tr>
+<tr><td>Price &amp; Stock</td><td>Price auto-converted via configurable exchange rate</td></tr>
+<tr><td>Weight &amp; Dimensions</td><td>Copied directly</td></tr>
+<tr><td>Product Images (up to 9)</td><td>URL passthrough &mdash; Shopee shared CDN, no re-upload needed</td></tr>
+<tr><td>Product Variations (color, size)</td><td>Restructured to match target market's upload format</td></tr>
+<tr><td>Days-to-Ship</td><td>Copied directly</td></tr>
+<tr><td>Category</td><td>Mapped via config file or interactive UI input</td></tr>
+<tr><td>Shipping Channels</td><td>Enabled by default (market-specific config available)</td></tr>
+<tr><td>Purchase Quantity Limits</td><td>Copied directly</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- FUTURE STATE -->
+<div class="band-grey full-width" id="future" style="padding:80px 0">
+<div class="inner">
+<p class="section-label">Evolution Path</p>
+<h2>Future State &mdash; With Shopee Open API</h2>
+<div class="comparison" style="border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08)">
+
+<div class="comp-col comp-now">
+<h3 style="color:#888">Current State (File-Based)</h3>
+<ul>
+<li>Seller downloads 5 export files from source SC</li>
+<li>Uploads files to web app</li>
+<li>Reviews product preview and maps categories</li>
+<li>Downloads transformed output file</li>
+<li>Uploads output file to target market SC</li>
+</ul>
+<p style="margin-top:20px;font-size:14px;color:#888;font-style:italic">Works today. No new permissions needed.</p>
+</div>
+
+<div class="comp-col comp-future">
+<h3>Future State (API-Connected)</h3>
+<ul>
+<li>Tool pulls listings directly via API &mdash; no file download</li>
+<li>AI-powered category matching across markets</li>
+<li>Auto-submit to target market (with seller approval step)</li>
+<li>Real-time price and stock sync across markets</li>
+<li>Multi-market dashboard: one view, all markets</li>
+<li>Webhook triggers: new listing in MY &rarr; auto-queued for SG</li>
+</ul>
+</div>
+
+</div>
+
+<div style="margin-top:48px">
+<h3 style="margin-bottom:20px">Value Unlocked with Open API</h3>
+<div class="four-col" style="grid-template-columns:1fr 1fr">
+<div class="card">
+<h3 style="font-size:16px">For Sellers</h3>
+<ul>
+<li><strong>Zero manual file handling</strong> &mdash; listings flow directly between markets</li>
+<li><strong>Real-time sync</strong> &mdash; price or stock changes propagate automatically</li>
+<li><strong>Bulk onboarding</strong> &mdash; new seller instantly replicated across all target markets</li>
+<li><strong>"Sell Everywhere"</strong> &mdash; one-click expansion from any single market</li>
+</ul>
+</div>
+<div class="card">
+<h3 style="font-size:16px">For the Platform</h3>
+<ul>
+<li><strong>Increased GMV</strong> from the same seller base across more markets</li>
+<li><strong>Reduced CB seller churn</strong> &mdash; lower operational friction = higher retention</li>
+<li><strong>Faster market coverage</strong> &mdash; new market = config change, not a new project</li>
+<li><strong>Data-driven insights</strong> &mdash; cross-market listing analytics at scale</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- ROADMAP -->
+<div class="band-white full-width" id="roadmap" style="padding:80px 0">
+<div class="inner">
+<p class="section-label">Roadmap</p>
+<h2>Phased Rollout Plan</h2>
+<div class="timeline">
+
+<div class="tl-item">
+<div class="tl-dot done"></div>
+<div class="tl-label done">Q2 2026</div>
+<div class="tl-desc"><strong>CLI Tool + Web App</strong><br>MY &rarr; SG market pair. Production-ready with 60+ tests.</div>
+</div>
+
+<div class="tl-item">
+<div class="tl-dot"></div>
+<div class="tl-label">Q3 2026</div>
+<div class="tl-desc"><strong>AI Category Mapping</strong><br>LLM-assisted category suggestion across markets. Reduced manual mapping.</div>
+</div>
+
+<div class="tl-item">
+<div class="tl-dot"></div>
+<div class="tl-label">Q4 2026</div>
+<div class="tl-desc"><strong>Open API Integration</strong><br>Direct listing pull/push. No more manual file handling.</div>
+</div>
+
+<div class="tl-item">
+<div class="tl-dot future"></div>
+<div class="tl-label future">2027</div>
+<div class="tl-desc"><strong>Real-Time Sync + Multi-Market</strong><br>TH, PH, ID expansion. "Sell Everywhere" one-click feature.</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- SUMMARY -->
+<div class="band-dark full-width" style="padding:80px 0">
+<div class="inner" style="text-align:center;max-width:800px">
+<p class="section-label" style="color:#EE4D2D">In Summary</p>
+<h2 style="color:#fff;margin-bottom:20px">Immediate Value, Designed to Evolve</h2>
+<p style="font-size:17px;color:rgba(255,255,255,.8);line-height:1.8;margin-bottom:16px">This tool delivers <strong style="color:#fff">measurable seller value today</strong> using Shopee's existing infrastructure &mdash; no new API access, no new permissions, no new infrastructure required.</p>
+<p style="font-size:17px;color:rgba(255,255,255,.8);line-height:1.8;margin-bottom:16px">It is <strong style="color:#fff">designed to evolve</strong>: the file-based approach is a deliberate stepping stone, not a dead end. Every component maps cleanly to an API-driven future. Developers can take the tested, modular codebase and level it up &mdash; the architecture is ready.</p>
+<p style="font-size:17px;color:rgba(255,255,255,.8);line-height:1.8;margin-bottom:32px">And it was <strong style="color:#fff">built by product, for product</strong> &mdash; proving that operational gaps can be closed at the speed of ideas, not the speed of sprint planning.</p>
+
+<div class="ask-box" style="background:rgba(255,255,255,.05);border-color:rgba(238,77,45,.6);text-align:left">
+<h3 style="color:#EE4D2D;font-size:18px">What We Need Next</h3>
+<p style="color:rgba(255,255,255,.75);font-size:15px;margin-top:8px">Internal Shopee Open API access (or Partner API approval) for the Japanese CB seller segment &mdash; to unlock the automated, real-time future state described above.</p>
+</div>
+
+</div>
+</div>
+
+<div class="footer-note">
+Cross-Market Listing Transfer Tool &middot; Internal Operations &middot; Q2 2026
+</div>
+
+</body>
+</html>
