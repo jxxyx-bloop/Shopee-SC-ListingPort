@@ -25,6 +25,7 @@ def transform_products(
     products: list[Product],
     config: TransformConfig,
     config_dir=None,
+    category_overrides: dict[str, str] | None = None,
 ) -> list[dict]:
     """Transform a list of Products into rows for the upload template.
 
@@ -32,12 +33,18 @@ def transform_products(
     Products without variations produce 1 row.
     Products with N variations produce N rows (first has product-level info,
     subsequent rows have only variation-level info).
+
+    Args:
+        category_overrides: Optional dict of source category ID -> target category ID
+            that takes precedence over the mapping file. Used by the web UI.
     """
     source_config = load_market_config(config.source_market, config_dir)
     target_config = load_market_config(config.target_market, config_dir)
     category_mapping = load_category_mapping(
         config.source_market, config.target_market, config_dir
     )
+    if category_overrides:
+        category_mapping.update(category_overrides)
 
     rows: list[dict] = []
     integration_counter = 1
