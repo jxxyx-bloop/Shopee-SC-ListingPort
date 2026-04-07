@@ -7,8 +7,19 @@ from pathlib import Path
 
 from .models import MarketConfig
 
-# Default config directory (relative to package root)
-_DEFAULT_CONFIG_DIR = Path(__file__).resolve().parent.parent.parent / "config"
+# Default config directory — check relative to package, then cwd
+def _find_default_config_dir() -> Path:
+    candidates = [
+        Path(__file__).resolve().parent.parent.parent / "config",
+        Path.cwd() / "config",
+    ]
+    for c in candidates:
+        if (c / "markets.json").exists():
+            return c
+    return candidates[0]  # Fall back to first option
+
+
+_DEFAULT_CONFIG_DIR = _find_default_config_dir()
 
 
 def load_market_config(market_code: str, config_dir: Path | None = None) -> MarketConfig:

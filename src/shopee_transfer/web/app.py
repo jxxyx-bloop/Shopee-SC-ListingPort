@@ -15,7 +15,22 @@ from shopee_transfer.models import TransformConfig
 from shopee_transfer.reader import detect_export_type, read_and_merge_exports
 from shopee_transfer.writer import write_upload_file
 
-CONFIG_DIR = Path(__file__).resolve().parent.parent.parent.parent / "config"
+def _find_config_dir() -> Path:
+    """Locate the config directory, checking multiple possible locations."""
+    # Relative to this file: src/shopee_transfer/web/app.py -> ../../../../config
+    candidates = [
+        Path(__file__).resolve().parent.parent.parent.parent / "config",
+        Path.cwd() / "config",
+    ]
+    for candidate in candidates:
+        if (candidate / "markets.json").exists():
+            return candidate
+    raise FileNotFoundError(
+        f"Cannot find config/markets.json. Searched: {[str(c) for c in candidates]}"
+    )
+
+
+CONFIG_DIR = _find_config_dir()
 MARKETS_FILE = CONFIG_DIR / "markets.json"
 
 # ---------------------------------------------------------------------------
