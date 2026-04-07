@@ -4,6 +4,8 @@ A tool that helps Shopee sellers transfer product listings from one market's Sel
 
 Built to support **Cross-Border (CB) merchants** who maintain accounts across multiple Shopee markets but lack a Global Seller Center.
 
+See feature pitch deck here: https://shopee-sc-listing-transfer.vercel.app/
+
 ## How It Works
 
 ```
