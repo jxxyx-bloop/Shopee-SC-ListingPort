@@ -14,6 +14,16 @@ from shopee_transfer.mapper import transform_products
 from shopee_transfer.models import TransformConfig
 from shopee_transfer.reader import detect_export_type, read_and_merge_exports
 from shopee_transfer.writer import write_upload_file
+from shopee_transfer.web.styles import (
+    SHOPEE_COLORS,
+    badge,
+    card,
+    inject_styles,
+    progress_indicator,
+    status_text,
+    step_badge,
+    summary_box,
+)
 
 def _find_config_dir() -> Path:
     """Locate the config directory, checking multiple possible locations."""
@@ -97,6 +107,9 @@ st.set_page_config(
     layout="wide",
 )
 
+# Inject Shopee brand styling
+inject_styles()
+
 st.title("Shopee Cross-Market Listing Transfer")
 st.caption(
     "Transform product listings exported from one Shopee market into the "
@@ -107,6 +120,7 @@ st.caption(
 # Step 1: Market Configuration
 # ---------------------------------------------------------------------------
 
+st.markdown(step_badge(1), unsafe_allow_html=True)
 st.header("Step 1: Configure Markets")
 
 markets = _load_markets()
@@ -150,12 +164,26 @@ with col3:
         format="%.4f",
     )
 
+# Show market summary
+st.markdown(
+    summary_box(
+        "📍 Market Conversion Configuration",
+        {
+            "From": f"{source_market.upper()} ({source_cfg.currency})",
+            "To": f"{target_market.upper()} ({target_cfg.currency})",
+            "Exchange Rate": f"{exchange_rate:.4f}",
+        },
+    ),
+    unsafe_allow_html=True,
+)
+
 st.divider()
 
 # ---------------------------------------------------------------------------
 # Step 2: Upload Files
 # ---------------------------------------------------------------------------
 
+st.markdown(step_badge(2), unsafe_allow_html=True)
 st.header("Step 2: Upload Files")
 
 st.subheader("Export Files (from source market)")
@@ -187,13 +215,28 @@ for i, (expected_type, (label, hint)) in enumerate(EXPORT_LABELS.items()):
             tmp_path = _save_uploaded_file(uploaded, f"export_{expected_type}")
             detected = _detect_type_safe(tmp_path)
             if detected == expected_type:
-                st.success(f"{detected}", icon="✅")
+                st.markdown(
+                    f"{badge('Verified', 'success')} {label}",
+                    unsafe_allow_html=True,
+                )
                 uploaded_exports[expected_type] = tmp_path
             elif detected:
-                st.warning(f"Got: {detected}", icon="⚠️")
+                st.markdown(
+                    f"{badge('Wrong Type', 'warning')} Expected {expected_type}, got {detected}",
+                    unsafe_allow_html=True,
+                )
                 uploaded_exports[detected] = tmp_path
             else:
-                st.error("Unrecognized file", icon="❌")
+                st.markdown(
+                    f"{badge('Error', 'error')} Unrecognized file format",
+                    unsafe_allow_html=True,
+                )
+
+# Show progress
+st.markdown(
+    progress_indicator(len(uploaded_exports), 5, "Export Files Progress"),
+    unsafe_allow_html=True,
+)
 
 st.subheader("Upload Template (for target market)")
 st.caption(
@@ -210,7 +253,10 @@ template_file = st.file_uploader(
 template_path: Path | None = None
 if template_file:
     template_path = _save_uploaded_file(template_file, "upload_template")
-    st.success("Template uploaded", icon="✅")
+    st.markdown(
+        f"{badge('Ready', 'success')} Upload template loaded",
+        unsafe_allow_html=True,
+    )
 
 # Check readiness
 all_exports_ready = len(uploaded_exports) == 5
@@ -218,10 +264,17 @@ template_ready = template_path is not None
 
 if not all_exports_ready:
     missing = set(EXPORT_LABELS.keys()) - set(uploaded_exports.keys())
-    st.info(f"Waiting for: {', '.join(EXPORT_LABELS[m][0] for m in missing)}")
+    missing_names = ", ".join(EXPORT_LABELS[m][0] for m in missing)
+    st.markdown(
+        f"{badge('Pending', 'pending')} Waiting for: {missing_names}",
+        unsafe_allow_html=True,
+    )
 
 if not template_ready:
-    st.info("Waiting for upload template")
+    st.markdown(
+        f"{badge('Pending', 'pending')} Waiting for upload template",
+        unsafe_allow_html=True,
+    )
 
 if not (all_exports_ready and template_ready):
     st.stop()
@@ -232,6 +285,7 @@ st.divider()
 # Step 3: Review & Map Categories
 # ---------------------------------------------------------------------------
 
+st.markdown(step_badge(3), unsafe_allow_html=True)
 st.header("Step 3: Review & Map Categories")
 
 # Parse all exports (cached to avoid re-parsing on every widget interaction)
@@ -331,6 +385,7 @@ st.divider()
 # Step 4: Transform & Download
 # ---------------------------------------------------------------------------
 
+st.markdown(step_badge(4), unsafe_allow_html=True)
 st.header("Step 4: Transform & Download")
 
 if st.button("Generate Upload File", type="primary", use_container_width=True):
@@ -366,15 +421,22 @@ if st.button("Generate Upload File", type="primary", use_container_width=True):
 
             # Summary
             file_size_kb = len(output_bytes) / 1024
-            st.success(
-                f"Generated upload file: **{total_products} products** → "
-                f"**{len(rows)} rows** ({file_size_kb:.0f} KB)"
+            st.markdown(
+                summary_box(
+                    "✅ Upload File Generated Successfully",
+                    {
+                        "Products": str(total_products),
+                        "Upload Rows": str(len(rows)),
+                        "File Size": f"{file_size_kb:.0f} KB",
+                    },
+                ),
+                unsafe_allow_html=True,
             )
 
             if file_size_kb > 3072:
-                st.warning(
-                    "File exceeds 3MB limit! Consider splitting into multiple files.",
-                    icon="⚠️",
+                st.markdown(
+                    f"{badge('Warning', 'warning')} File exceeds 3MB limit! Consider splitting into multiple files.",
+                    unsafe_allow_html=True,
                 )
 
             output_filename = (
@@ -398,8 +460,17 @@ if st.button("Generate Upload File", type="primary", use_container_width=True):
 
 # Footer
 st.divider()
-st.caption(
-    "Shopee Cross-Market Listing Transfer Tool v0.1 | "
-    f"Source: {source_market.upper()} ({source_cfg.currency}) → "
-    f"Target: {target_market.upper()} ({target_cfg.currency})"
+st.markdown(
+    f"""
+    <div style="text-align: center; color: #555; font-size: 0.875rem; margin-top: 2rem;">
+        <p><strong>Shopee Cross-Market Listing Transfer Tool</strong> v0.1</p>
+        <p>
+            {badge(f'{source_market.upper()}', 'info')} → {badge(f'{target_market.upper()}', 'info')}
+        </p>
+        <p style="color: #999; margin-top: 0.5rem;">
+            {source_cfg.currency} to {target_cfg.currency} | Exchange Rate: {exchange_rate:.4f}
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True,
 )
