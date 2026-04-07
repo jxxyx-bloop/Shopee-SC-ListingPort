@@ -84,7 +84,7 @@ The web app provides:
 ```
 ShopeeSC/
   pyproject.toml                  # Project config and dependencies
-  pitch.html                      # Stakeholder pitch deck (open in browser)
+  listing-cross-market-transfer-pitch-v2.html  # Stakeholder pitch deck (open in browser)
   config/
     markets.json                  # Market configs (currency, shipping channels)
     category_mappings/
@@ -160,7 +160,7 @@ python -m pytest tests/ -v
 
 ## Pitch Deck
 
-A self-contained HTML pitch deck is included at [`pitch.html`](pitch.html) for stakeholder presentations. Open it directly in any browser — no dependencies required. It covers:
+A self-contained HTML pitch deck is included at [`listing-cross-market-transfer-pitch-v2.html`](listing-cross-market-transfer-pitch-v2.html) for stakeholder presentations. Open it directly in any browser — no dependencies required. It covers:
 
 - Problem statement and strategic context for JP CB sellers
 - Approach evaluation (why file-based transformation was chosen over RPA, API, and manual processes)
