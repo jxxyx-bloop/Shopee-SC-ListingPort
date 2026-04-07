@@ -20,9 +20,9 @@ from shopee_transfer.web.styles import (
     card,
     inject_styles,
     progress_indicator,
+    render_summary_box,
     status_text,
     step_badge,
-    summary_box,
 )
 
 def _find_config_dir() -> Path:
@@ -110,10 +110,15 @@ st.set_page_config(
 # Inject Shopee brand styling
 inject_styles()
 
-st.title("Shopee Cross-Market Listing Transfer")
-st.caption(
-    "Transform product listings exported from one Shopee market into the "
-    "upload format for another market."
+st.markdown(
+    """
+    <div class="shopee-hero">
+        <div class="shopee-hero-eyebrow">🛒 Shopee Seller Tools</div>
+        <div class="shopee-hero-title">Cross-Market Listing Transfer</div>
+        <p class="shopee-hero-sub">Transform product listings exported from one Shopee market into the upload format for another market.</p>
+    </div>
+    """,
+    unsafe_allow_html=True,
 )
 
 # ---------------------------------------------------------------------------
@@ -165,16 +170,13 @@ with col3:
     )
 
 # Show market summary
-st.markdown(
-    summary_box(
-        "📍 Market Conversion Configuration",
-        {
-            "From": f"{source_market.upper()} ({source_cfg.currency})",
-            "To": f"{target_market.upper()} ({target_cfg.currency})",
-            "Exchange Rate": f"{exchange_rate:.4f}",
-        },
-    ),
-    unsafe_allow_html=True,
+render_summary_box(
+    "📍 Market Conversion Configuration",
+    {
+        "From": f"{source_market.upper()} ({source_cfg.currency})",
+        "To": f"{target_market.upper()} ({target_cfg.currency})",
+        "Exchange Rate": f"{exchange_rate:.4f}",
+    },
 )
 
 st.divider()
@@ -421,16 +423,13 @@ if st.button("Generate Upload File", type="primary", use_container_width=True):
 
             # Summary
             file_size_kb = len(output_bytes) / 1024
-            st.markdown(
-                summary_box(
-                    "✅ Upload File Generated Successfully",
-                    {
-                        "Products": str(total_products),
-                        "Upload Rows": str(len(rows)),
-                        "File Size": f"{file_size_kb:.0f} KB",
-                    },
-                ),
-                unsafe_allow_html=True,
+            render_summary_box(
+                "✅ Upload File Generated Successfully",
+                {
+                    "Products": str(total_products),
+                    "Upload Rows": str(len(rows)),
+                    "File Size": f"{file_size_kb:.0f} KB",
+                },
             )
 
             if file_size_kb > 3072:
@@ -462,13 +461,10 @@ if st.button("Generate Upload File", type="primary", use_container_width=True):
 st.divider()
 st.markdown(
     f"""
-    <div style="text-align: center; color: #555; font-size: 0.875rem; margin-top: 2rem;">
-        <p><strong>Shopee Cross-Market Listing Transfer Tool</strong> v0.1</p>
-        <p>
-            {badge(f'{source_market.upper()}', 'info')} → {badge(f'{target_market.upper()}', 'info')}
-        </p>
-        <p style="color: #999; margin-top: 0.5rem;">
-            {source_cfg.currency} to {target_cfg.currency} | Exchange Rate: {exchange_rate:.4f}
+    <div style="text-align: center; color: #999; font-size: 0.8125rem; margin-top: 1.5rem; padding-bottom: 1rem;">
+        <p style="margin: 0; color: #555; font-weight: 500;">Shopee Cross-Market Listing Transfer Tool &nbsp;·&nbsp; v0.1</p>
+        <p style="margin: 0.25rem 0 0 0;">
+            {source_market.upper()} ({source_cfg.currency}) → {target_market.upper()} ({target_cfg.currency}) &nbsp;·&nbsp; Rate: {exchange_rate:.4f}
         </p>
     </div>
     """,
