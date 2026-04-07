@@ -1,0 +1,33 @@
+# Streamlit Configuration for Shopee Cross-Market Transfer Tool
+# Applies Shopee brand colors and styling to the web UI
+
+[theme]
+# Primary color: Shopee Orange - used for interactive elements, buttons, accents
+primaryColor = "#EE4D2D"
+
+# Background color: Clean white
+backgroundColor = "#FFFFFF"
+
+# Secondary background color: Light gray for containers, alternating rows
+secondaryBackgroundColor = "#F7F7F7"
+
+# Text color: Dark navy for primary text
+textColor = "#1A1A1A"
+
+# Font: Use system font stack for better compatibility
+font = "sans serif"
+
+[client]
+# Use wide layout to maximize space for data tables
+showSidebarNavigation = true
+
+[logger]
+# Disable logging level to avoid clutter
+level = "error"
+
+[server]
+# Prevent cookieExpires warning
+runOnSave = true
+
+# Allow HTML in markdown for custom styling
+allowRunOnSave = true
