@@ -51,11 +51,15 @@ shopee-transfer convert \
 
 ### Option 2: Web App (Streamlit)
 
+**Live App:** https://shopeesc-listingtransfer.streamlit.app/
+
+Or run locally:
+
 ```bash
 streamlit run src/shopee_transfer/web/app.py
 ```
 
-Then open `http://localhost:8501` in your browser. The web app provides:
+The web app provides:
 1. Market selection and exchange rate configuration
 2. Drag-and-drop file upload with auto-detection
 3. Product preview table and interactive category mapping
@@ -80,6 +84,7 @@ Then open `http://localhost:8501` in your browser. The web app provides:
 ```
 ShopeeSC/
   pyproject.toml                  # Project config and dependencies
+  pitch.html                      # Stakeholder pitch deck (open in browser)
   config/
     markets.json                  # Market configs (currency, shipping channels)
     category_mappings/
@@ -152,6 +157,16 @@ python -m pytest tests/ -v
 2. Fill in any unmapped category IDs for the target market
 3. Verify prices after currency conversion
 4. Upload to the target market's Seller Center: **My Products > Mass Function > Mass Upload > Upload File**
+
+## Pitch Deck
+
+A self-contained HTML pitch deck is included at [`pitch.html`](pitch.html) for stakeholder presentations. Open it directly in any browser — no dependencies required. It covers:
+
+- Problem statement and strategic context for JP CB sellers
+- Approach evaluation (why file-based transformation was chosen over RPA, API, and manual processes)
+- Delivered solution (CLI + Web App) and immediate value add
+- Future evolution path with Shopee Open API integration
+- Phased roadmap (Q2 2026 → 2027)
 
 ## Limitations
 
