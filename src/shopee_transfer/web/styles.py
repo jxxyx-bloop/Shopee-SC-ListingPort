@@ -60,16 +60,16 @@ h1 {{
     font-size: 2rem;
     line-height: 1.2;
     margin-bottom: 0.5rem;
-    border-top: 3px solid {SHOPEE_COLORS['primary_orange']};
-    padding-top: 0.5rem;
 }}
 
 h2 {{
     color: {SHOPEE_COLORS['navy']};
     font-weight: 700;
-    font-size: 1.5rem;
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
+    font-size: 1.375rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.75rem;
+    padding-left: 0.75rem;
+    border-left: 3px solid {SHOPEE_COLORS['primary_orange']};
 }}
 
 h3 {{
@@ -153,22 +153,23 @@ p {{
 
 /* ============ METRICS ============ */
 .stMetric {{
-    background-color: {SHOPEE_COLORS['surface_lighter']};
+    background: {SHOPEE_COLORS['white']};
     padding: 1.25rem;
-    border-radius: 8px;
-    border-left: 4px solid {SHOPEE_COLORS['primary_orange']};
+    border-radius: 10px;
+    border: 1px solid {SHOPEE_COLORS['border']};
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }}
 
 .stMetric label {{
-    color: {SHOPEE_COLORS['navy']};
+    color: {SHOPEE_COLORS['text_secondary']};
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.06em;
 }}
 
 .stMetric [data-testid="stMetricValue"] {{
-    color: {SHOPEE_COLORS['primary_orange']};
+    color: {SHOPEE_COLORS['navy']};
     font-size: 1.875rem;
     font-weight: 700;
 }}
@@ -176,14 +177,16 @@ p {{
 /* ============ DATA FRAMES ============ */
 [data-testid="stDataFrame"] {{
     border: 1px solid {SHOPEE_COLORS['border']};
-    border-radius: 4px;
+    border-radius: 8px;
     overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }}
 
 [data-testid="stDataFrame"] thead {{
-    background-color: {SHOPEE_COLORS['primary_orange']};
-    color: white;
+    background-color: {SHOPEE_COLORS['surface_light']};
+    color: {SHOPEE_COLORS['navy']};
     font-weight: 600;
+    border-bottom: 2px solid {SHOPEE_COLORS['border']};
 }}
 
 [data-testid="stDataFrame"] tbody tr:nth-child(even) {{
@@ -191,7 +194,7 @@ p {{
 }}
 
 [data-testid="stDataFrame"] tbody tr:hover {{
-    background-color: {SHOPEE_COLORS['orange_light']};
+    background-color: {SHOPEE_COLORS['surface_lighter']};
 }}
 
 /* ============ STATUS MESSAGES ============ */
@@ -306,16 +309,19 @@ p {{
 
 /* ============ STEP INDICATOR ============ */
 .shopee-step-badge {{
-    display: inline-block;
-    background-color: {SHOPEE_COLORS['primary_orange']};
-    color: white;
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: {SHOPEE_COLORS['orange_light']};
+    color: {SHOPEE_COLORS['primary_orange']};
+    border: 1px solid {SHOPEE_COLORS['orange_medium']};
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
-    margin-bottom: 1rem;
-    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.06em;
 }}
 
 .shopee-step-dots {{
@@ -353,17 +359,17 @@ p {{
 
 /* ============ CARDS ============ */
 .shopee-card {{
-    background-color: {SHOPEE_COLORS['surface_lighter']};
+    background: {SHOPEE_COLORS['white']};
     border: 1px solid {SHOPEE_COLORS['border']};
-    border-radius: 8px;
-    padding: 1.5rem;
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
     margin: 1rem 0;
-    transition: all 0.2s ease;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    transition: box-shadow 0.2s ease;
 }}
 
 .shopee-card:hover {{
-    border-color: {SHOPEE_COLORS['primary_orange']};
-    box-shadow: 0 2px 8px rgba(238, 77, 45, 0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }}
 
 .shopee-card-title {{
@@ -384,27 +390,43 @@ p {{
     line-height: 1.6;
 }}
 
-/* ============ SUMMARY BOX ============ */
-.shopee-summary {{
-    background: linear-gradient(135deg, {SHOPEE_COLORS['primary_orange']}15, {SHOPEE_COLORS['blue']}15);
-    border: 1px solid {SHOPEE_COLORS['primary_orange']}30;
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin: 1.5rem 0;
+/* ============ HERO HEADER ============ */
+.shopee-hero {{
+    padding: 2rem 0 1.5rem 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid {SHOPEE_COLORS['border']};
 }}
 
-.shopee-summary-title {{
-    color: {SHOPEE_COLORS['navy']};
-    font-weight: 600;
-    margin-bottom: 1rem;
-}}
-
-.shopee-summary-row {{
-    display: flex;
-    justify-content: space-between;
+.shopee-hero-eyebrow {{
+    display: inline-flex;
     align-items: center;
-    margin: 0.75rem 0;
-    color: {SHOPEE_COLORS['text_primary']};
+    gap: 0.4rem;
+    background: {SHOPEE_COLORS['orange_light']};
+    color: {SHOPEE_COLORS['primary_orange']};
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.7rem;
+    border-radius: 100px;
+    margin-bottom: 0.75rem;
+}}
+
+.shopee-hero-title {{
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: {SHOPEE_COLORS['navy']};
+    line-height: 1.25;
+    margin: 0 0 0.5rem 0;
+    border: none;
+    padding: 0;
+}}
+
+.shopee-hero-sub {{
+    color: {SHOPEE_COLORS['text_secondary']};
+    font-size: 0.95rem;
+    margin: 0;
+    line-height: 1.5;
 }}
 
 /* ============ RESPONSIVE ============ */
@@ -535,32 +557,20 @@ def card(title: str, content: str, subtitle: str = "") -> str:
     """
 
 
-def summary_box(title: str, items: dict) -> str:
+def render_summary_box(title: str, items: dict) -> None:
     """
-    Create a summary box with key-value pairs.
+    Render a summary box with key-value pairs using native Streamlit components.
 
     Args:
         title: Summary box title
         items: Dictionary of label-value pairs
-
-    Returns:
-        HTML string for the summary box
     """
-    rows_html = ""
-    for label, value in items.items():
-        rows_html += f"""
-        <div class="shopee-summary-row">
-            <span style="color: #555;">{label}:</span>
-            <span style="font-weight: 600; color: #1A1A1A;">{value}</span>
-        </div>
-        """
-
-    return f"""
-    <div class="shopee-summary">
-        <div class="shopee-summary-title">{title}</div>
-        {rows_html}
-    </div>
-    """
+    with st.container(border=True):
+        st.markdown(f"**{title}**")
+        for label, value in items.items():
+            col1, col2 = st.columns([1, 1])
+            col1.caption(label)
+            col2.markdown(f"**{value}**")
 
 
 def status_text(text: str, status: str = "info") -> str:
