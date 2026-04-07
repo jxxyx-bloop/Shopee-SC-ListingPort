@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/listing-cross-market-transfer-pitch-v2.html" }
+  ]
+}
