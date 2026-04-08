@@ -10,8 +10,11 @@ _src_dir = Path(__file__).resolve().parent.parent.parent
 if str(_src_dir) not in sys.path:
     sys.path.insert(0, str(_src_dir))
 
+import io
 import json
 import tempfile
+
+import pandas as pd
 
 import streamlit as st
 
@@ -341,9 +344,11 @@ for p in products:
 st.dataframe(preview_data, use_container_width=True, height=300)
 
 # Currency preview
-st.subheader("Price Conversion Preview")
+_col_ph, _col_dl = st.columns([3, 1])
+_col_ph.subheader("Price Conversion Preview")
+
 preview_prices = []
-for p in products[:5]:
+for p in products:
     if p.variations and p.variations[0].price:
         src_price = p.variations[0].price
         try:
@@ -357,7 +362,17 @@ for p in products[:5]:
             pass
 
 if preview_prices:
-    st.dataframe(preview_prices, use_container_width=True)
+    _df_prices = pd.DataFrame(preview_prices)
+    _csv_buf = io.StringIO()
+    _df_prices.to_csv(_csv_buf, index=False)
+    _col_dl.download_button(
+        label="Download Table",
+        data=_csv_buf.getvalue(),
+        file_name="price_conversion_preview.csv",
+        mime="text/csv",
+        use_container_width=True,
+    )
+    st.dataframe(_df_prices, use_container_width=True)
 else:
     st.info("No prices available for preview.")
 
