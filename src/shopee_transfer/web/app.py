@@ -281,6 +281,18 @@ if not template_ready:
     )
 
 if not (all_exports_ready and template_ready):
+    st.divider()
+    for step_num, step_title in [
+        (3, "Review & Map Categories"),
+        (4, "Transform & Download"),
+        (5, "Upload to Shopee Seller Center"),
+    ]:
+        st.markdown(step_badge(step_num, 5), unsafe_allow_html=True)
+        st.header(f"Step {step_num}: {step_title}")
+        st.info(
+            "Complete Step 2 — upload all 5 export files and the upload template — to unlock this step."
+        )
+        st.divider()
     st.stop()
 
 st.divider()
@@ -327,40 +339,6 @@ for p in products:
     })
 
 st.dataframe(preview_data, use_container_width=True, height=300)
-
-# Category mapping
-st.subheader("Category Mapping")
-st.caption(
-    f"Map source ({source_market.upper()}) category IDs to target ({target_market.upper()}) category IDs. "
-    "Leave blank to keep the source ID (you can fix it in the upload file later)."
-)
-
-# Extract unique categories
-unique_categories: dict[str, str] = {}
-for p in products:
-    if p.category_id and p.category_id not in unique_categories:
-        unique_categories[p.category_id] = p.category_raw or p.category_id
-
-if not unique_categories:
-    st.info("No categories found in export data.")
-else:
-    # Initialize session state for category mappings
-    if "cat_mappings" not in st.session_state:
-        st.session_state.cat_mappings = {}
-
-    cat_cols = st.columns(2)
-    cat_items = list(unique_categories.items())
-
-    for i, (cat_id, cat_display) in enumerate(cat_items):
-        col = cat_cols[i % 2]
-        with col:
-            mapped_value = st.text_input(
-                f"{cat_display}",
-                value=st.session_state.cat_mappings.get(cat_id, ""),
-                key=f"cat_{cat_id}",
-                placeholder=f"Target {target_market.upper()} category ID",
-            )
-            st.session_state.cat_mappings[cat_id] = mapped_value
 
 # Currency preview
 st.subheader("Price Conversion Preview")
