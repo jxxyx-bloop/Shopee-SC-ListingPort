@@ -79,8 +79,6 @@ h2 {{
     margin-top: 0.25rem;
     margin-bottom: 0.75rem;
     margin-left: 0.5rem;
-    padding-left: 1.25rem;
-    border-left: 3px solid {SHOPEE_COLORS['primary_orange']};
 }}
 
 h3 {{
