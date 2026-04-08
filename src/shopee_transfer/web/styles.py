@@ -78,7 +78,7 @@ h2 {{
     font-size: 1.375rem;
     margin-top: 0.25rem;
     margin-bottom: 0.75rem;
-    padding-left: 0.75rem;
+    padding-left: 1.25rem;
     border-left: 3px solid {SHOPEE_COLORS['primary_orange']};
 }}
 
