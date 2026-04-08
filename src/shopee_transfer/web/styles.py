@@ -759,33 +759,29 @@ def render_prereq_box(source_market: str, target_market: str) -> str:
     src_name, src_url = SELLER_CENTER_URLS.get(src_key, (source_market.upper(), "#"))
     tgt_name, tgt_url = SELLER_CENTER_URLS.get(tgt_key, (target_market.upper(), "#"))
 
-    return f"""
-    <div class="shopee-prereq-box">
-        <div class="shopee-prereq-eyebrow">Before You Begin</div>
-        <div class="shopee-prereq-title">Download These Files First</div>
-
-        <div class="shopee-prereq-item">
-            <div class="shopee-prereq-num">1</div>
-            <div>
-                Go to your <strong>{src_name} ({src_key.upper()}) Seller Center</strong>
-                — <a class="shopee-prereq-link" href="{src_url}" target="_blank">{src_url}</a>
-                — and download all <strong>5 Mass Update export files</strong>:
-                Basic Info, Sales Info, Shipping Info, Days-to-Ship, and Media/Images.
-                <br><small style="color:#777;">Path in Seller Center: My Products &rarr; Mass Update &rarr; Export</small>
-            </div>
-        </div>
-
-        <div class="shopee-prereq-item">
-            <div class="shopee-prereq-num">2</div>
-            <div>
-                Go to your <strong>{tgt_name} ({tgt_key.upper()}) Seller Center</strong>
-                — <a class="shopee-prereq-link" href="{tgt_url}" target="_blank">{tgt_url}</a>
-                — and download the <strong>Mass Upload Basic Template</strong>.
-                <br><small style="color:#777;">Path in Seller Center: My Products &rarr; Mass Upload &rarr; Download Template &rarr; Basic Template</small>
-            </div>
-        </div>
-    </div>
-    """
+    return (
+        f'<div class="shopee-prereq-box">'
+        f'<div class="shopee-prereq-eyebrow">Before You Begin</div>'
+        f'<div class="shopee-prereq-title">Download These Files First</div>'
+        f'<div class="shopee-prereq-item">'
+        f'<div class="shopee-prereq-num">1</div>'
+        f'<div>Go to your <strong>{src_name} ({src_key.upper()}) Seller Center</strong>'
+        f' &mdash; <a class="shopee-prereq-link" href="{src_url}" target="_blank">{src_url}</a>'
+        f' &mdash; and download all <strong>5 Mass Update export files</strong>:'
+        f' Basic Info, Sales Info, Shipping Info, Days-to-Ship, and Media/Images.'
+        f'<br><small style="color:#777;">Path in Seller Center: My Products &rarr; Mass Update &rarr; Export</small>'
+        f'</div>'
+        f'</div>'
+        f'<div class="shopee-prereq-item">'
+        f'<div class="shopee-prereq-num">2</div>'
+        f'<div>Go to your <strong>{tgt_name} ({tgt_key.upper()}) Seller Center</strong>'
+        f' &mdash; <a class="shopee-prereq-link" href="{tgt_url}" target="_blank">{tgt_url}</a>'
+        f' &mdash; and download the <strong>Mass Upload Basic Template</strong>.'
+        f'<br><small style="color:#777;">Path in Seller Center: My Products &rarr; Mass Upload &rarr; Download Template &rarr; Basic Template</small>'
+        f'</div>'
+        f'</div>'
+        f'</div>'
+    )
 
 
 def render_step5_upload_guide(source_market: str, target_market: str) -> str:
@@ -805,44 +801,43 @@ def render_step5_upload_guide(source_market: str, target_market: str) -> str:
     src_name, src_url = SELLER_CENTER_URLS.get(src_key, (source_market.upper(), "#"))
     tgt_name, tgt_url = SELLER_CENTER_URLS.get(tgt_key, (target_market.upper(), "#"))
 
-    src_tile = f"""
-    <div class="shopee-market-tile">
-        <div class="shopee-market-tile-code">{src_key.upper()}</div>
-        <div style="font-size:0.78rem;color:#555;margin:0.15rem 0;">{src_name} <span style="font-size:0.65rem;background:#E8E8E8;color:#555;padding:0.1rem 0.4rem;border-radius:8px;font-weight:600;">SOURCE</span></div>
-        <div class="shopee-market-tile-link"><a href="{src_url}" target="_blank">{src_url}</a></div>
-    </div>"""
+    src_tile = (
+        f'<div class="shopee-market-tile">'
+        f'<div class="shopee-market-tile-code">{src_key.upper()}</div>'
+        f'<div style="font-size:0.78rem;color:#555;margin:0.15rem 0;">{src_name}'
+        f' <span style="font-size:0.65rem;background:#E8E8E8;color:#555;padding:0.1rem 0.4rem;border-radius:8px;font-weight:600;">SOURCE</span>'
+        f'</div>'
+        f'<div class="shopee-market-tile-link"><a href="{src_url}" target="_blank">{src_url}</a></div>'
+        f'</div>'
+    )
 
-    tgt_tile = f"""
-    <div class="shopee-market-tile target-market">
-        <div class="shopee-market-tile-code">{tgt_key.upper()} <span style="font-size:0.65rem;background:#EE4D2D;color:white;padding:0.1rem 0.4rem;border-radius:8px;font-weight:700;">TARGET</span></div>
-        <div style="font-size:0.78rem;color:#555;margin:0.15rem 0;">{tgt_name}</div>
-        <div class="shopee-market-tile-link"><a href="{tgt_url}" target="_blank">{tgt_url}</a></div>
-    </div>"""
+    tgt_tile = (
+        f'<div class="shopee-market-tile target-market">'
+        f'<div class="shopee-market-tile-code">{tgt_key.upper()}'
+        f' <span style="font-size:0.65rem;background:#EE4D2D;color:white;padding:0.1rem 0.4rem;border-radius:8px;font-weight:700;">TARGET</span>'
+        f'</div>'
+        f'<div style="font-size:0.78rem;color:#555;margin:0.15rem 0;">{tgt_name}</div>'
+        f'<div class="shopee-market-tile-link"><a href="{tgt_url}" target="_blank">{tgt_url}</a></div>'
+        f'</div>'
+    )
 
-    return f"""
-    <div class="shopee-sc-highlight">
-        <div class="shopee-sc-highlight-icon">🚀</div>
-        <div class="shopee-sc-highlight-text">
-            <div class="shopee-sc-highlight-label">Upload Destination</div>
-            <div class="shopee-sc-highlight-market">{tgt_name} ({tgt_key.upper()}) Seller Center</div>
-            <div class="shopee-sc-highlight-link">
-                <a href="{tgt_url}" target="_blank">{tgt_url}</a>
-            </div>
-        </div>
-    </div>
-
-    <p style="color:#1A1A1A;font-size:0.9rem;margin:0.75rem 0 0.5rem 0;">
-        In your <strong>{tgt_name} Seller Center</strong>, go to
-        <strong>My Products &rarr; Mass Upload &rarr; Upload File</strong>
-        and select the file you just downloaded. Shopee will validate the rows and queue your listings for review.
-    </p>
-
-    <p style="color:#555;font-size:0.875rem;font-weight:600;margin:1rem 0 0.5rem 0;">Seller Center Links for This Transfer</p>
-    <div class="shopee-market-grid">
-        {src_tile}
-        {tgt_tile}
-    </div>
-    """
+    return (
+        f'<div class="shopee-sc-highlight">'
+        f'<div class="shopee-sc-highlight-icon">🚀</div>'
+        f'<div class="shopee-sc-highlight-text">'
+        f'<div class="shopee-sc-highlight-label">Upload Destination</div>'
+        f'<div class="shopee-sc-highlight-market">{tgt_name} ({tgt_key.upper()}) Seller Center</div>'
+        f'<div class="shopee-sc-highlight-link"><a href="{tgt_url}" target="_blank">{tgt_url}</a></div>'
+        f'</div>'
+        f'</div>'
+        f'<p style="color:#1A1A1A;font-size:0.9rem;margin:0.75rem 0 0.5rem 0;">'
+        f'In your <strong>{tgt_name} Seller Center</strong>, go to '
+        f'<strong>My Products &rarr; Mass Upload &rarr; Upload File</strong>'
+        f' and select the file you just downloaded. Shopee will validate the rows and queue your listings for review.'
+        f'</p>'
+        f'<p style="color:#555;font-size:0.875rem;font-weight:600;margin:1rem 0 0.5rem 0;">Seller Center Links for This Transfer</p>'
+        f'<div class="shopee-market-grid">{src_tile}{tgt_tile}</div>'
+    )
 
 
 def status_text(text: str, status: str = "info") -> str:
