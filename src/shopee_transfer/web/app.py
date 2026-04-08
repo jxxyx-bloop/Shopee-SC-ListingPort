@@ -15,13 +15,10 @@ from shopee_transfer.models import TransformConfig
 from shopee_transfer.reader import detect_export_type, read_and_merge_exports
 from shopee_transfer.writer import write_upload_file
 from shopee_transfer.web.styles import (
-    SHOPEE_COLORS,
     badge,
-    card,
     inject_styles,
     progress_indicator,
     render_summary_box,
-    status_text,
     step_badge,
 )
 
