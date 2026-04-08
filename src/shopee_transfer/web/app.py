@@ -135,7 +135,7 @@ st.markdown(
 # ---------------------------------------------------------------------------
 
 st.markdown(step_badge(1, 5), unsafe_allow_html=True)
-st.header("Step 1: Configure Markets")
+st.markdown('<h2>Step 1: Configure Markets</h2>', unsafe_allow_html=True)
 
 markets = _load_markets()
 market_codes = list(markets.keys())
@@ -191,7 +191,7 @@ st.divider()
 # ---------------------------------------------------------------------------
 
 st.markdown(step_badge(2, 5), unsafe_allow_html=True)
-st.header("Step 2: Upload Files")
+st.markdown('<h2>Step 2: Upload Files</h2>', unsafe_allow_html=True)
 
 st.subheader("Step 2a · Export Files (from source market)")
 st.caption(
@@ -291,7 +291,7 @@ if not (all_exports_ready and template_ready):
         (5, "Upload to Shopee Seller Center"),
     ]:
         st.markdown(step_badge(step_num, 5), unsafe_allow_html=True)
-        st.header(f"Step {step_num}: {step_title}")
+        st.markdown(f'<h2>Step {step_num}: {step_title}</h2>', unsafe_allow_html=True)
         st.info(
             "Complete Step 2 — upload all 5 export files and the upload template — to unlock this step."
         )
@@ -305,7 +305,7 @@ st.divider()
 # ---------------------------------------------------------------------------
 
 st.markdown(step_badge(3, 5), unsafe_allow_html=True)
-st.header("Step 3: Review & Map Categories")
+st.markdown('<h2>Step 3: Review &amp; Map Categories</h2>', unsafe_allow_html=True)
 
 # Parse all exports (cached to avoid re-parsing on every widget interaction)
 @st.cache_data
@@ -383,7 +383,7 @@ st.divider()
 # ---------------------------------------------------------------------------
 
 st.markdown(step_badge(4, 5), unsafe_allow_html=True)
-st.header("Step 4: Transform & Download")
+st.markdown('<h2>Step 4: Transform &amp; Download</h2>', unsafe_allow_html=True)
 
 if st.button("Generate Upload File", type="primary", use_container_width=True):
     with st.spinner("Transforming listings..."):
@@ -459,7 +459,7 @@ if st.button("Generate Upload File", type="primary", use_container_width=True):
 st.divider()
 
 st.markdown(step_badge(5, 5), unsafe_allow_html=True)
-st.header("Step 5: Upload to Shopee Seller Center")
+st.markdown('<h2>Step 5: Upload to Shopee Seller Center</h2>', unsafe_allow_html=True)
 st.caption(
     f"Your file is ready. Now go to your **{target_market.upper()}** Seller Center "
     "and upload it via Mass Upload to list the products in the target market."
