@@ -31,6 +31,16 @@ SHOPEE_COLORS = {
     "white": "#FFFFFF",
 }
 
+# Shopee Seller Center URLs per market
+SELLER_CENTER_URLS: dict[str, tuple[str, str]] = {
+    "my": ("Malaysia",    "https://seller.shopee.com.my/"),
+    "sg": ("Singapore",   "https://seller.shopee.sg/"),
+    "id": ("Indonesia",   "https://seller.shopee.co.id/"),
+    "vn": ("Vietnam",     "https://banhang.shopee.vn/"),
+    "ph": ("Philippines", "https://seller.shopee.ph/"),
+    "th": ("Thailand",    "https://seller.shopee.co.th/"),
+}
+
 # Custom CSS Styles for Shopee Branding
 CSS_CUSTOM_STYLES = f"""
 <style>
@@ -429,6 +439,166 @@ p {{
     line-height: 1.5;
 }}
 
+/* ============ PREREQUISITES BOX ============ */
+.shopee-prereq-box {{
+    background: #FFF8F6;
+    border: 1.5px solid #FDDDD7;
+    border-left: 4px solid {SHOPEE_COLORS['primary_orange']};
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.25rem 0 1.5rem 0;
+}}
+
+.shopee-prereq-eyebrow {{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: {SHOPEE_COLORS['primary_orange']};
+    color: #FFFFFF;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.65rem;
+    border-radius: 100px;
+    margin-bottom: 0.75rem;
+}}
+
+.shopee-prereq-title {{
+    color: {SHOPEE_COLORS['navy']};
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    border: none !important;
+    padding: 0 !important;
+}}
+
+.shopee-prereq-item {{
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid {SHOPEE_COLORS['surface_lighter']};
+    font-size: 0.9rem;
+    color: {SHOPEE_COLORS['text_primary']};
+    line-height: 1.5;
+}}
+
+.shopee-prereq-item:last-child {{
+    border-bottom: none;
+    padding-bottom: 0;
+}}
+
+.shopee-prereq-num {{
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: {SHOPEE_COLORS['primary_orange']};
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.1rem;
+}}
+
+.shopee-prereq-link {{
+    color: {SHOPEE_COLORS['blue']};
+    text-decoration: none;
+    font-weight: 600;
+}}
+
+.shopee-prereq-link:hover {{
+    text-decoration: underline;
+}}
+
+/* ============ STEP 5: SELLER CENTER UPLOAD GUIDE ============ */
+.shopee-sc-highlight {{
+    background: linear-gradient(135deg, {SHOPEE_COLORS['orange_light']} 0%, {SHOPEE_COLORS['orange_medium']} 100%);
+    border: 2px solid {SHOPEE_COLORS['primary_orange']};
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}}
+
+.shopee-sc-highlight-icon {{
+    font-size: 2rem;
+    flex-shrink: 0;
+}}
+
+.shopee-sc-highlight-text {{
+    flex: 1;
+}}
+
+.shopee-sc-highlight-label {{
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: {SHOPEE_COLORS['primary_orange']};
+    margin-bottom: 0.2rem;
+}}
+
+.shopee-sc-highlight-market {{
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: {SHOPEE_COLORS['navy']};
+}}
+
+.shopee-sc-highlight-link a {{
+    color: {SHOPEE_COLORS['blue']};
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+}}
+
+.shopee-sc-highlight-link a:hover {{
+    text-decoration: underline;
+}}
+
+.shopee-market-grid {{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin: 1rem 0;
+}}
+
+.shopee-market-tile {{
+    background: {SHOPEE_COLORS['white']};
+    border: 1px solid {SHOPEE_COLORS['border']};
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}}
+
+.shopee-market-tile.target-market {{
+    border-color: {SHOPEE_COLORS['primary_orange']};
+    border-width: 2px;
+    background: #FFF8F6;
+}}
+
+.shopee-market-tile-code {{
+    font-size: 1rem;
+    font-weight: 700;
+    color: {SHOPEE_COLORS['navy']};
+}}
+
+.shopee-market-tile-link a {{
+    font-size: 0.78rem;
+    color: {SHOPEE_COLORS['blue']};
+    text-decoration: none;
+}}
+
+.shopee-market-tile-link a:hover {{
+    text-decoration: underline;
+}}
+
 /* ============ RESPONSIVE ============ */
 @media (max-width: 768px) {{
     .main {{
@@ -571,6 +741,108 @@ def render_summary_box(title: str, items: dict) -> None:
             col1, col2 = st.columns([1, 1])
             col1.caption(label)
             col2.markdown(f"**{value}**")
+
+
+def render_prereq_box(source_market: str, target_market: str) -> str:
+    """
+    Render the 'Before You Begin' prerequisites box as an HTML string.
+
+    Args:
+        source_market: Source market code (e.g. "my")
+        target_market: Target market code (e.g. "sg")
+
+    Returns:
+        HTML string — caller must pass unsafe_allow_html=True.
+    """
+    src_key = source_market.lower()
+    tgt_key = target_market.lower()
+    src_name, src_url = SELLER_CENTER_URLS.get(src_key, (source_market.upper(), "#"))
+    tgt_name, tgt_url = SELLER_CENTER_URLS.get(tgt_key, (target_market.upper(), "#"))
+
+    return f"""
+    <div class="shopee-prereq-box">
+        <div class="shopee-prereq-eyebrow">Before You Begin</div>
+        <div class="shopee-prereq-title">Download These Files First</div>
+
+        <div class="shopee-prereq-item">
+            <div class="shopee-prereq-num">1</div>
+            <div>
+                Go to your <strong>{src_name} ({src_key.upper()}) Seller Center</strong>
+                — <a class="shopee-prereq-link" href="{src_url}" target="_blank">{src_url}</a>
+                — and download all <strong>5 Mass Update export files</strong>:
+                Basic Info, Sales Info, Shipping Info, Days-to-Ship, and Media/Images.
+                <br><small style="color:#777;">Path in Seller Center: My Products &rarr; Mass Update &rarr; Export</small>
+            </div>
+        </div>
+
+        <div class="shopee-prereq-item">
+            <div class="shopee-prereq-num">2</div>
+            <div>
+                Go to your <strong>{tgt_name} ({tgt_key.upper()}) Seller Center</strong>
+                — <a class="shopee-prereq-link" href="{tgt_url}" target="_blank">{tgt_url}</a>
+                — and download the <strong>Mass Upload Basic Template</strong>.
+                <br><small style="color:#777;">Path in Seller Center: My Products &rarr; Mass Upload &rarr; Download Template &rarr; Basic Template</small>
+            </div>
+        </div>
+    </div>
+    """
+
+
+def render_step5_upload_guide(source_market: str, target_market: str) -> str:
+    """
+    Render the Step 5 'Upload to Seller Center' guide as an HTML string.
+    Shows only the two markets involved in the current transfer.
+
+    Args:
+        source_market: Source market code (e.g. "my")
+        target_market: Target market code (e.g. "sg")
+
+    Returns:
+        HTML string — caller must pass unsafe_allow_html=True.
+    """
+    src_key = source_market.lower()
+    tgt_key = target_market.lower()
+    src_name, src_url = SELLER_CENTER_URLS.get(src_key, (source_market.upper(), "#"))
+    tgt_name, tgt_url = SELLER_CENTER_URLS.get(tgt_key, (target_market.upper(), "#"))
+
+    src_tile = f"""
+    <div class="shopee-market-tile">
+        <div class="shopee-market-tile-code">{src_key.upper()}</div>
+        <div style="font-size:0.78rem;color:#555;margin:0.15rem 0;">{src_name} <span style="font-size:0.65rem;background:#E8E8E8;color:#555;padding:0.1rem 0.4rem;border-radius:8px;font-weight:600;">SOURCE</span></div>
+        <div class="shopee-market-tile-link"><a href="{src_url}" target="_blank">{src_url}</a></div>
+    </div>"""
+
+    tgt_tile = f"""
+    <div class="shopee-market-tile target-market">
+        <div class="shopee-market-tile-code">{tgt_key.upper()} <span style="font-size:0.65rem;background:#EE4D2D;color:white;padding:0.1rem 0.4rem;border-radius:8px;font-weight:700;">TARGET</span></div>
+        <div style="font-size:0.78rem;color:#555;margin:0.15rem 0;">{tgt_name}</div>
+        <div class="shopee-market-tile-link"><a href="{tgt_url}" target="_blank">{tgt_url}</a></div>
+    </div>"""
+
+    return f"""
+    <div class="shopee-sc-highlight">
+        <div class="shopee-sc-highlight-icon">🚀</div>
+        <div class="shopee-sc-highlight-text">
+            <div class="shopee-sc-highlight-label">Upload Destination</div>
+            <div class="shopee-sc-highlight-market">{tgt_name} ({tgt_key.upper()}) Seller Center</div>
+            <div class="shopee-sc-highlight-link">
+                <a href="{tgt_url}" target="_blank">{tgt_url}</a>
+            </div>
+        </div>
+    </div>
+
+    <p style="color:#1A1A1A;font-size:0.9rem;margin:0.75rem 0 0.5rem 0;">
+        In your <strong>{tgt_name} Seller Center</strong>, go to
+        <strong>My Products &rarr; Mass Upload &rarr; Upload File</strong>
+        and select the file you just downloaded. Shopee will validate the rows and queue your listings for review.
+    </p>
+
+    <p style="color:#555;font-size:0.875rem;font-weight:600;margin:1rem 0 0.5rem 0;">Seller Center Links for This Transfer</p>
+    <div class="shopee-market-grid">
+        {src_tile}
+        {tgt_tile}
+    </div>
+    """
 
 
 def status_text(text: str, status: str = "info") -> str:

@@ -25,6 +25,8 @@ from shopee_transfer.web.styles import (
     badge,
     inject_styles,
     progress_indicator,
+    render_prereq_box,
+    render_step5_upload_guide,
     render_summary_box,
     step_badge,
 )
@@ -129,7 +131,7 @@ st.markdown(
 # Step 1: Market Configuration
 # ---------------------------------------------------------------------------
 
-st.markdown(step_badge(1), unsafe_allow_html=True)
+st.markdown(step_badge(1, 5), unsafe_allow_html=True)
 st.header("Step 1: Configure Markets")
 
 markets = _load_markets()
@@ -173,14 +175,10 @@ with col3:
         format="%.4f",
     )
 
-# Show market summary
-render_summary_box(
-    "📍 Market Conversion Configuration",
-    {
-        "From": f"{source_market.upper()} ({source_cfg.currency})",
-        "To": f"{target_market.upper()} ({target_cfg.currency})",
-        "Exchange Rate": f"{exchange_rate:.4f}",
-    },
+# Before You Begin — dynamic links based on selected markets
+st.markdown(
+    render_prereq_box(source_market, target_market),
+    unsafe_allow_html=True,
 )
 
 st.divider()
@@ -189,10 +187,10 @@ st.divider()
 # Step 2: Upload Files
 # ---------------------------------------------------------------------------
 
-st.markdown(step_badge(2), unsafe_allow_html=True)
+st.markdown(step_badge(2, 5), unsafe_allow_html=True)
 st.header("Step 2: Upload Files")
 
-st.subheader("Export Files (from source market)")
+st.subheader("Step 2a · Export Files (from source market)")
 st.caption(
     f"Upload the 5 Mass Update export files from your **{source_market.upper()}** Seller Center. "
     "Each file is auto-verified."
@@ -244,7 +242,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.subheader("Upload Template (for target market)")
+st.subheader("Step 2b · Upload Template (for target market)")
 st.caption(
     f"Upload the Mass Upload **Basic Template** downloaded from your **{target_market.upper()}** Seller Center."
 )
@@ -291,7 +289,7 @@ st.divider()
 # Step 3: Review & Map Categories
 # ---------------------------------------------------------------------------
 
-st.markdown(step_badge(3), unsafe_allow_html=True)
+st.markdown(step_badge(3, 5), unsafe_allow_html=True)
 st.header("Step 3: Review & Map Categories")
 
 # Parse all exports (cached to avoid re-parsing on every widget interaction)
@@ -391,7 +389,7 @@ st.divider()
 # Step 4: Transform & Download
 # ---------------------------------------------------------------------------
 
-st.markdown(step_badge(4), unsafe_allow_html=True)
+st.markdown(step_badge(4, 5), unsafe_allow_html=True)
 st.header("Step 4: Transform & Download")
 
 if st.button("Generate Upload File", type="primary", use_container_width=True):
@@ -460,6 +458,24 @@ if st.button("Generate Upload File", type="primary", use_container_width=True):
         except Exception as e:
             st.error(f"Transformation failed: {e}")
             st.exception(e)
+
+# ---------------------------------------------------------------------------
+# Step 5: Upload to Shopee Seller Center
+# ---------------------------------------------------------------------------
+
+st.divider()
+
+st.markdown(step_badge(5, 5), unsafe_allow_html=True)
+st.header("Step 5: Upload to Shopee Seller Center")
+st.caption(
+    f"Your file is ready. Now go to your **{target_market.upper()}** Seller Center "
+    "and upload it via Mass Upload to list the products in the target market."
+)
+
+st.markdown(
+    render_step5_upload_guide(source_market, target_market),
+    unsafe_allow_html=True,
+)
 
 # Footer
 st.divider()
