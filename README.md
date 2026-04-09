@@ -64,8 +64,9 @@ streamlit run src/shopee_transfer/web/app.py
 The web app provides:
 1. Market selection and exchange rate configuration
 2. Drag-and-drop file upload with auto-detection
-3. Product preview table and interactive category mapping
+3. Product preview and price conversion table (with CSV export)
 4. One-click transform and download
+5. Step-by-step upload guide for the target market
 
 ## What Gets Transferred
 
@@ -75,7 +76,7 @@ The web app provides:
 | Price & Stock | sales_info | Price converted using exchange rate |
 | Weight & Dimensions | shipping_info | Direct copy |
 | Images (cover + 8) | media_info | URL passthrough (shared CDN) |
-| Category | media_info / dts_info | Mapped via config or manual input |
+| Category | media_info / dts_info | Mapped via config file |
 | Variations (color, size) | sales_info + media_info | Restructured to upload format |
 | Days to Ship | dts_info | Direct copy |
 | Purchase Qty Limits | sales_info | Direct copy |
@@ -86,6 +87,7 @@ The web app provides:
 ```
 ShopeeSC/
   pyproject.toml                  # Project config and dependencies
+  index.html                      # Pitch deck (Vercel deployment entry point)
   listing-cross-market-transfer-pitch-v2.html  # Stakeholder pitch deck (open in browser)
   config/
     markets.json                  # Market configs (currency, shipping channels)
@@ -101,8 +103,9 @@ ShopeeSC/
     config.py                     # Load market configs and category mappings
     cli.py                        # Click CLI entry point
     web/
-      app.py                      # Streamlit web app
-  tests/                          # 60 tests covering all modules
+      app.py                      # Streamlit web app (5-step wizard UI)
+      styles.py                   # Shopee brand styling and UI components
+  tests/                          # Unit tests covering all modules
 ```
 
 ## Configuration
@@ -128,8 +131,6 @@ Category IDs differ between markets. Edit `config/category_mappings/my_to_sg.jso
   "100226": "100226"
 }
 ```
-
-Or use the web app's interactive category mapping UI to set them per-session.
 
 ### Adding New Markets
 
@@ -162,7 +163,7 @@ python -m pytest tests/ -v
 
 ## Pitch Deck
 
-A self-contained HTML pitch deck is included at [`listing-cross-market-transfer-pitch-v2.html`](listing-cross-market-transfer-pitch-v2.html) for stakeholder presentations. Open it directly in any browser — no dependencies required. It covers:
+A self-contained HTML pitch deck is included at [`listing-cross-market-transfer-pitch-v2.html`](listing-cross-market-transfer-pitch-v2.html) for stakeholder presentations (also served via Vercel at the link above as `index.html`). Open it directly in any browser — no dependencies required. It covers:
 
 - Problem statement and strategic context for JP CB sellers
 - Approach evaluation (why file-based transformation was chosen over RPA, API, and manual processes)
