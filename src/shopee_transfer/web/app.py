@@ -475,7 +475,7 @@ st.divider()
 st.markdown(
     f"""
     <div style="text-align: center; color: #999; font-size: 0.8125rem; margin-top: 1.5rem; padding-bottom: 1rem;">
-        <p style="margin: 0; color: #555; font-weight: 500;">Shopee Cross-Market Listing Transfer Tool &nbsp;·&nbsp; v0.1</p>
+        <p style="margin: 0; color: #555; font-weight: 500;">Shopee Cross-Market Listing Transfer Tool &nbsp;·&nbsp; v0.2.0</p>
         <p style="margin: 0.25rem 0 0 0;">
             {source_market.upper()} ({source_cfg.currency}) → {target_market.upper()} ({target_cfg.currency}) &nbsp;·&nbsp; Rate: {exchange_rate:.4f}
         </p>
