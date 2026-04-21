@@ -1,10 +1,40 @@
 # Shopee Cross-Market Listing Transfer Tool
 
-A tool that helps Shopee sellers transfer product listings from one market's Seller Center to another (e.g., Malaysia to Singapore). It reads Mass Update export files, transforms the data, and generates a ready-to-upload Mass Upload file for the target market.
+A tool that helps Shopee sellers copy product listings from one market's Seller Center to another (e.g., Malaysia → Singapore). It reads Mass Update export files, transforms the data, and generates a ready-to-upload Mass Upload file for the target market.
 
-Built to support **Cross-Border (CB) merchants** who maintain accounts across multiple Shopee markets but lack a Global Seller Center.
+Useful for sellers who are **expanding into a new Shopee market** and need to migrate or duplicate an existing catalog — without having to re-enter every product by hand.
 
 See feature pitch deck here: https://shopee-sc-listing-transfer.vercel.app/
+
+---
+
+## When Would You Need This?
+
+When you operate stores in multiple Shopee markets, you'll occasionally need to replicate listings across them — for example when:
+
+- Setting up a new storefront in a different market with an existing product catalog
+- Running a market-expansion pilot with a curated subset of SKUs
+- Keeping product information consistent across markets after a bulk update
+
+This tool automates the file transformation between Shopee's Mass Update export format and Mass Upload import format, handling currency conversion, category remapping, and variation restructuring along the way.
+
+---
+
+## Better Long-Term: Shopee's Native Cross-Market Programs
+
+If cross-market listing sync is a recurring need for your business, Shopee offers two official programs purpose-built for exactly this — with built-in sync, localisation support, and logistics handling that go well beyond what a file conversion tool can provide:
+
+### Shopee International Platform (SIP)
+SIP lets you sell your home-market listings to buyers in other Shopee markets directly from a single store. Shopee handles cross-border logistics, currency, and listing synchronisation across markets — so you don't need to manage separate storefronts at all.
+[Learn more about SIP →](https://seller.shopee.sg/edu/article/21486)
+
+### Shopee Direct Selling
+Shopee's Direct Selling model lets you partner with Shopee as a supply partner, offloading fulfilment, operations, and cross-market distribution to Shopee directly. It's the simplest path to multi-market reach without the overhead of managing each market independently.
+[Learn more about Direct Selling →](https://seller.shopee.sg/edu/article/26946)
+
+> **Recommendation:** If you're regularly syncing listings across markets, evaluate SIP or Direct Selling first — they handle the complexity natively and provide ongoing automation. Use this tool for one-off migrations or situations where those programs aren't yet available for your market pair.
+
+---
 
 ## How It Works
 
@@ -165,7 +195,7 @@ python -m pytest tests/ -v
 
 A self-contained HTML pitch deck is included at [`listing-cross-market-transfer-pitch-v2.html`](listing-cross-market-transfer-pitch-v2.html) for stakeholder presentations (also served via Vercel at the link above as `index.html`). Open it directly in any browser — no dependencies required. It covers:
 
-- Problem statement and strategic context for JP CB sellers
+- Problem statement and strategic context for cross-border sellers
 - Approach evaluation (why file-based transformation was chosen over RPA, API, and manual processes)
 - Delivered solution (CLI + Web App) and immediate value add
 - Future evolution path with Shopee Open API integration
